@@ -21,13 +21,25 @@ fs.readFile('input.txt', 'utf8', (err, input) => {
     }, [0,0]);
   }
 
-  // console.log(findLocation('ne,ne,ne'));
-  // console.log(findLocation('ne,ne,sw,sw'));
-  // console.log(findLocation('ne,ne,s,s'));
-  // console.log(findLocation('se,sw,se,sw,sw'));
+  function getStepsBack(coords) {
+    let steps = 0;
+    let x = Math.abs(coords[0]);
+    let y = Math.abs(coords[1]);
+    while (x > 0) {
+      x -= 0.5;
+      y += y < 0 ? 0.5 : -0.5;
+      ++steps;
+    }
+    return steps + y;
+  }
+
+  // console.log(getStepsBack(findLocation('ne,ne,ne')));
+  // console.log(getStepsBack(findLocation('ne,ne,sw,sw')));
+  // console.log(getStepsBack(findLocation('ne,ne,s,s')));
+  // console.log(getStepsBack(findLocation('se,sw,se,sw,sw')));
 
   const end = findLocation(input);
-  const stepsBack = Math.abs(end[0]) + Math.abs(end[1]);
+  const stepsBack = getStepsBack(end);
   console.log(stepsBack);
 });
 

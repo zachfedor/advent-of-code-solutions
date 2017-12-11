@@ -19,13 +19,25 @@ fs.readFile('input.txt', 'utf8', (err, input) => {
     }
   }
 
+  function getStepsBack(coords) {
+    let steps = 0;
+    let x = Math.abs(coords[0]);
+    let y = Math.abs(coords[1]);
+    while (x > 0) {
+      x -= 0.5;
+      y += y < 0 ? 0.5 : -0.5;
+      ++steps;
+    }
+    return steps + y;
+  }
+
   function findFurthest(steps) {
     const locations = steps.trim().split(',').reduce((coords, step) => {
       const next = getNextLocation(coords[coords.length - 1], step)
       return [ ...coords, next];
     }, [[0,0]]);
 
-    return locations.map(l => Math.abs(l[0]) + Math.abs(l[1]))
+    return locations.map(location => getStepsBack(location))
       .reduce((acc, cur) => acc > cur ? acc : cur);
   }
 
