@@ -63,4 +63,5 @@ function getDenseHash(input) {
 // console.log(getDenseHash('1,2,3') === '3efbe78a8d82f29979031a4aa0b16a9d');
 // console.log(getDenseHash('1,2,4') === '63960835bcdc130f0b66d7ff4f6a5a8e');
 
-console.log(getDenseHash(input));
+// console.log(getDenseHash(input));
+module.exports = { getDenseHash };
