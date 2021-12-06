@@ -11,7 +11,7 @@
 (def input
   (map (fn [[heading dist]] [heading (Integer/parseInt dist)])
   (map (fn [step] (str/split step #" "))
-   (advent-of-code-2021.core/readInput "src/advent_of_code_2021/02/input.txt"))))
+   (advent-of-code-2021.io/readInput "src/advent_of_code_2021/02/input.txt"))))
 
 (defn calculateLocation [course]
   ; Given a list of steps making up the sub's course, calculate it's final location

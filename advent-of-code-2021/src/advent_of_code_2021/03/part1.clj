@@ -13,7 +13,7 @@
                "00010"
                "01010"))
 
-(def input (advent-of-code-2021.core/readInput "src/advent_of_code_2021/03/input.txt"))
+(def input (advent-of-code-2021.io/readInput "src/advent_of_code_2021/03/input.txt"))
 
 (defn bit-flipper
   "Convert a binary string into it's complement
