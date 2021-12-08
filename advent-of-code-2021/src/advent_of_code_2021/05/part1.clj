@@ -1,5 +1,5 @@
 (ns advent-of-code-2021.05.part1
-  (:require [advent-of-code-2021.io :refer [readInput]]
+  (:require [advent-of-code-2021.io :refer [read-lines]]
             [clojure.string :as str]))
 
 (def example ["0,9 -> 5,9"
@@ -13,7 +13,7 @@
               "0,0 -> 8,8"
               "5,5 -> 8,2"])
 
-(def input (readInput "src/advent_of_code_2021/05/input.txt"))
+(def input (read-lines "src/advent_of_code_2021/05/input.txt"))
 
 (defn is-ortho?
   "Given start and end coordinates, return true if the line is horizontal or vertical"
@@ -29,8 +29,6 @@
           (partition 2 in)))
        strings))
 
-(def lines (filter #(apply is-ortho? %) (create-lines input)))
-
 (defn range-inclusive
   "Given two integers, return a vector including all numbers in between"
   [x y] (range x                            ; Start at the first number
@@ -45,14 +43,12 @@
     (for [y (range-inclusive y1 y2)] [x1 y])   ; Horizantal line, find all y values
     (for [x (range-inclusive x1 x2)] [x y1]))) ; Vertical line, find all x values
 
-(compose-coords [[0 0] [5 0]])
+;; (compose-coords [[0 0] [5 0]])
 
 (defn fill-board
   "Given a list of lines, a vector of start and end coordinates,
   create a flat list of all points"
   [composer lines] (partition 2 (flatten (map composer lines))))
-
-(fill-board compose-coords lines)
 
 (defn find-dup-coords
   "Given a list of coordinates, return list containing coordinates that were duplicates"
@@ -61,4 +57,8 @@
         :when (> freq 1)]
     coord))
 
-(count (find-dup-coords (fill-board compose-coords lines)))
+(defn run [in]
+  (let [lines (filter #(apply is-ortho? %) (create-lines in))]
+    (count (find-dup-coords (fill-board compose-coords lines)))))
+
+;; (println "Day 05 - Part 1: " (run input))

@@ -61,4 +61,4 @@
      (map solve-line)
      (reduce +)))
 
-;; (println (run example))
+;; (println "Day 08 - Part 2: " (run input))

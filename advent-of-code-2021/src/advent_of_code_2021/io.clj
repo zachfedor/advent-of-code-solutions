@@ -1,26 +1,26 @@
 (ns advent-of-code-2021.io
   (:require [clojure.string :as str]))
 
-(defn readInput
+(defn read-lines
   "Given a file, return it's contents as a vector of lines as strings"
   [file]
   (with-open [rdr (clojure.java.io/reader file)]
     (reduce conj [] (line-seq rdr))))
 
-(defn readInputN
+(defn read-linesn
   "Given a file, return it's contents as a vector of lines as integers"
   [file]
-  (vec (map #(Integer/parseInt %) (readInput file))))
+  (mapv #(Integer/parseInt %) (read-lines file)))
 
-(defn readStrings
+(defn read-strings
   "Given a file, return its single-line contents as a vector of strings, split by a separator"
-  ([file] (readStrings file #","))
+  ([file] (read-strings file #","))
   ([file separator] (-> file
-                        (readInput)
+                        (read-lines)
                         (first)
                         (str/split separator))))
 
-(defn readInts
+(defn read-ints
   "Given a file, return its single-line contents as a vector of integers, split by a separator"
-  ([file] (readInts file #","))
-  ([file separator] (vec (map #(Integer/parseInt %) (readStrings file separator)))))
+  ([file] (read-ints file #","))
+  ([file separator] (mapv #(Integer/parseInt %) (read-strings file separator))))

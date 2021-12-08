@@ -8,7 +8,7 @@
   `[0 n0, 1 n1, ... 8 n8]` where nX is the number of fish at day x"
   [in]
   (vec (for [x (range 9)]
-         (get (frequencies (map #(Integer/parseInt %) (str/split in #","))) x 0))))
+         (get (frequencies in) x 0))))
 
 (defn update-timers
   "Given a vector of timers, return an updated map for the next cycle"
@@ -32,4 +32,4 @@
 
   (reduce + @timers))
 
-(println (run input 256))
+;; (println "Day 06 - Part 2: " (run input 256))

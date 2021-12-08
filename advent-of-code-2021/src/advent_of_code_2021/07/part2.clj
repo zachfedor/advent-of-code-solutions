@@ -23,4 +23,4 @@
       (sort)
       (first))))
 
-(println (run input))
+;; (println "Day 07 - Part 2: " (run input))

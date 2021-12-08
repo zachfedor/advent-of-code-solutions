@@ -1,5 +1,6 @@
 (ns advent-of-code-2021.04.part1
-  (:require [clojure.string :as str]))
+  (:require [advent-of-code-2021.io :refer [read-lines]]
+            [clojure.string :as str]))
 
 (def example ["7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1"
                ""
@@ -21,16 +22,7 @@
                "22 11 13  6  5"
                " 2  0 12  3  7"])
 
-(def input (advent-of-code-2021.io/readInput "src/advent_of_code_2021/04/input.txt"))
-
-(def numbers (str/split (first input) #","))
-
-(def boards (partition
-             5                                              ; Split the list of lines into boards of 5 lines each
-             (for [line (rest input) :when (not= "" line)]  ; Create list of input from non empty lines beyond the first
-               (as-> line in                                ; Start macro to transform each line
-                 (str/split in #" ")                        ; Split the string into a list at each space
-                 (remove empty? in)))))                     ; Filter out blank elements
+(def input (read-lines "src/advent_of_code_2021/04/input.txt"))
 
 (defn any-empty?
   "Given a list of rows, determine if any are all `nil`"
@@ -58,23 +50,36 @@
               (partition 5)))
        boards))
 
-(def last-iteration (atom boards))
-(def idx (atom 0))
+(defn get-numbers [in] (str/split (first in) #","))
 
-(while (keep-going? @last-iteration)
-  (def drawn-num (nth numbers @idx))
-  (swap! last-iteration mark-boards drawn-num)
-  (swap! idx inc))
+(defn get-boards [in]
+  (partition 5                                          ; Split the list of lines into boards of 5 lines each
+             (for [line (rest in) :when (not= "" line)] ; Create list of input from non empty lines beyond the first
+               (as-> line in                            ; Start macro to transform each line
+                 (str/split in #" ")                    ; Split the string into a list at each space
+                 (remove empty? in)))))                 ; Filter out blank elements
 
-(def last-num (Integer/parseInt (nth numbers (dec @idx))))
+(defn run [in]
+  (def numbers (get-numbers in))
+  (def last-iteration (atom (get-boards in)))
+  (def idx (atom 0))
 
-(def winning-board (filter board-wins? @last-iteration))
+  (while (keep-going? @last-iteration)
+    (def drawn-num (nth numbers @idx))
+    (swap! last-iteration mark-boards drawn-num)
+    (swap! idx inc))
 
-(defn board-sum
-  [board] (->> board
-            (flatten)
-            (remove nil?)
-            (map #(Integer/parseInt %))
-            (reduce +)))
+  (def last-num (Integer/parseInt (nth numbers (dec @idx))))
 
-(println (* (board-sum winning-board) last-num))
+  (def winning-board (filter board-wins? @last-iteration))
+
+  (defn board-sum
+    [board] (->> board
+                 (flatten)
+                 (remove nil?)
+                 (map #(Integer/parseInt %))
+                 (reduce +)))
+
+  (* (board-sum winning-board) last-num))
+
+;; (println "Day 04 - Part 1: " (run input))

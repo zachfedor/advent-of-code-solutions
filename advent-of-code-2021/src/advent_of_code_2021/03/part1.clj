@@ -1,4 +1,5 @@
-(ns advent-of-code-2021.03.part1)
+(ns advent-of-code-2021.03.part1
+  (:require [advent-of-code-2021.io :refer [read-lines]]))
 
 (def example '("00100"
                "11110"
@@ -13,7 +14,7 @@
                "00010"
                "01010"))
 
-(def input (advent-of-code-2021.io/readInput "src/advent_of_code_2021/03/input.txt"))
+(def input (read-lines "src/advent_of_code_2021/03/input.txt"))
 
 (defn bit-flipper
   "Convert a binary string into it's complement
@@ -46,12 +47,8 @@
 (defn find-epsilon [report]
   (bit-flipper (find-gamma report)))
 
-(find-gamma example)
-
-(find-epsilon example)
-
 (defn find-power-consumption [report]
   (* (Integer/parseInt (find-gamma report) 2)
      (Integer/parseInt (find-epsilon report) 2)))
 
-(println (find-power-consumption input))
+;; (println "Day 03 - Part 1: " (find-power-consumption input))

@@ -1,8 +1,6 @@
 (ns advent-of-code-2021.05.part2
   (:require [advent-of-code-2021.05.part1 :as part1
-             :refer [example input create-lines range-inclusive]]))
-
-(def lines (create-lines input))
+             :refer [example input range-inclusive]]))
 
 (defn compose-coords
   "Given start and end coordinates, compose all the coordinates within
@@ -15,6 +13,10 @@
                 ys (range-inclusive y1 y2)]
             (map-indexed (fn [idx x] [x (nth ys idx)]) xs))))
 
-(compose-coords [[8 0] [0 8]])
+;; (compose-coords [[8 0] [0 8]])
 
-(count (part1/find-dup-coords (part1/fill-board compose-coords lines)))
+(defn run [in]
+  (let [lines (part1/create-lines in)]
+    (count (part1/find-dup-coords (part1/fill-board compose-coords lines)))))
+
+;; (println "Day 05 - Part 2: " (run input))

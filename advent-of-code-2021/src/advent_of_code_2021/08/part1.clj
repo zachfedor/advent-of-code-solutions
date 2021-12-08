@@ -1,10 +1,10 @@
 (ns advent-of-code-2021.08.part1
-  (:require [advent-of-code-2021.io :refer [readInput]]
+  (:require [advent-of-code-2021.io :refer [read-lines]]
             [clojure.string :as str]))
 
-(def example (readInput "src/advent_of_code_2021/08/example.txt"))
+(def example (read-lines "src/advent_of_code_2021/08/example.txt"))
 
-(def input (readInput "src/advent_of_code_2021/08/input.txt"))
+(def input (read-lines "src/advent_of_code_2021/08/input.txt"))
 
 (defn run [in]
   (let [digits (map #(-> %
@@ -22,4 +22,4 @@
                     false))       ; filter out other digits
          (count))))
 
-(run input)
+;; (println "Day 08 - Part 1: " (run input))
