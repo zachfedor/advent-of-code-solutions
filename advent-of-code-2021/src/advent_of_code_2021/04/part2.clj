@@ -9,17 +9,17 @@
   ;; Find the last board
   (while (< 1 (count @last-iteration))
     (def drawn-num (nth numbers @idx))
-    ;; (println (str "drawing: " drawn-num))
+    #_(println (str "drawing: " drawn-num))
     ;; Remove boards that have won from the list
     (reset! last-iteration (remove part1/board-wins? (part1/mark-boards @last-iteration drawn-num)))
     (swap! idx inc))
 
-  ;; (println "== Found Winner ==")
+  #_(println "== Found Winner ==")
 
   ;; Keep playing the final board till it wins
   (while (part1/keep-going? @last-iteration)
     (def drawn-num (nth numbers @idx))
-    ;; (println (str "drawing: " drawn-num))
+    #_(println (str "drawing: " drawn-num))
     (swap! last-iteration part1/mark-boards drawn-num)
     (swap! idx inc))
 
@@ -28,4 +28,4 @@
 
   (* (part1/board-sum winning-board) last-num))
 
-;; (println "Day 04 - Part 2: " (run input))
+(println "Day 04 - Part 2: " (run input))

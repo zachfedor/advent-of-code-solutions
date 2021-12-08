@@ -14,12 +14,12 @@
                     in)]
     (->> digits
          (flatten)
-         (filter #(case (count %) ; count # of segments that create:
-                    2 true        ; digit 1
-                    4 true        ; digit 4
-                    3 true        ; digit 7
-                    7 true        ; digit 8
-                    false))       ; filter out other digits
+         (filter #(case (count %) ; Count # of segments that create:
+                    2 true        ;   digit 1
+                    4 true        ;   digit 4
+                    3 true        ;   digit 7
+                    7 true        ;   digit 8
+                    false))       ; Filter out other digits
          (count))))
 
-;; (println "Day 08 - Part 1: " (run input))
+#_(println "Day 08 - Part 1: " (run input))

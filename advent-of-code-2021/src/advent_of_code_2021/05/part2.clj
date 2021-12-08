@@ -13,10 +13,10 @@
                 ys (range-inclusive y1 y2)]
             (map-indexed (fn [idx x] [x (nth ys idx)]) xs))))
 
-;; (compose-coords [[8 0] [0 8]])
+(compose-coords [[8 0] [0 8]])
 
 (defn run [in]
   (let [lines (part1/create-lines in)]
     (count (part1/find-dup-coords (part1/fill-board compose-coords lines)))))
 
-;; (println "Day 05 - Part 2: " (run input))
+#_(println "Day 05 - Part 2: " (run input))

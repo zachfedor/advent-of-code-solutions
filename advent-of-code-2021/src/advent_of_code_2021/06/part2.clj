@@ -13,14 +13,18 @@
 (defn update-timers
   "Given a vector of timers, return an updated map for the next cycle"
   [timers]
-  (let [new (nth timers 0)] ;; Save the amount of new fish to be created
+  (let [new (nth timers 0)] ; Save the amount of new fish to be created
     (as-> timers in
-        (rest in) ;; Decrement index of each timer by removing the first item
-        (vec in) ;; Convert rest list back into vector
-        (assoc in 6 (+ (nth in 6) new)) ;; Reset the day 0 fish, adding them to day 6
-        (conj in new)))) ;; Add newly created fish to end of vector as day 8s
+      ;; Decrement index of each timer by removing the first item
+      (rest in)
+      ;; Convert list back into vector for `conj` to append
+      (vec in)
+      ;; Reset the day 0 fish, adding them to day 6
+      (assoc in 6 (+ (nth in 6) new))
+      ;; Add newly created fish to end of vector as day 8s
+      (conj in new))))
 
-;; (update-timers (build-freq example))
+#_(update-timers (build-freq example))
 
 (defn run [initial days]
   (def days-left (atom days))
@@ -32,4 +36,4 @@
 
   (reduce + @timers))
 
-;; (println "Day 06 - Part 2: " (run input 256))
+#_(println "Day 06 - Part 2: " (run input 256))

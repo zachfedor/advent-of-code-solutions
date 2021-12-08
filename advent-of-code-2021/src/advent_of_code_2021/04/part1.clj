@@ -82,4 +82,4 @@
 
   (* (board-sum winning-board) last-num))
 
-;; (println "Day 04 - Part 1: " (run input))
+#_(println "Day 04 - Part 1: " (run input))

@@ -26,21 +26,20 @@
   "Given a diagnostic report of binary strings, find the most common bit
   in the corresponding position of all strings."
   [report]
-  ; Using the frequencies, compare to find the most common and join into a single string
+  ;; Using the frequencies, compare to find the most common and join into a single string
   (apply str
          (map (fn [[zero one]] (if (> zero one) "0" "1"))
-         ; Aggregate the most common digit for each line
+         ;; Aggregate the most common digit for each line
          (reduce
            (fn [fs s]
-             ; Given a line, add the frequency for each position
+             ;; Given a line, add the frequency for each position
              (map-indexed (fn [idx [zero one]]
-               ; Return a new vector for this position
-               ; calculating the number of
+               ;; Return a new vector for this position
                [(+ zero (if (= \0 (nth s idx)) 1 0))
                (+ one (if (= \1 (nth s idx)) 1 0))])
                fs))
-           ; Build a frequency map for the length of each string in the report
-           ; starting at [0 0] because we haven't looked at any string yet
+           ;; Build a frequency map for the length of each string in the report
+           ;; starting at [0 0] because we haven't looked at any string yet
            (for [x (range (count (nth report 0)))] [0 0])
            report))))
 
@@ -51,4 +50,4 @@
   (* (Integer/parseInt (find-gamma report) 2)
      (Integer/parseInt (find-epsilon report) 2)))
 
-;; (println "Day 03 - Part 1: " (find-power-consumption input))
+#_(println "Day 03 - Part 1: " (find-power-consumption input))

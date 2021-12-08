@@ -13,4 +13,4 @@
 (defn count-increases [measures]
   (second (reduce is-increase? [] measures)))
 
-;; (println "Day 01 - Part 1: " (count-increases input))
+#_(println "Day 01 - Part 1: " (count-increases input))

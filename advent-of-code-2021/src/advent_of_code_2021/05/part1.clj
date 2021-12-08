@@ -23,17 +23,17 @@
   "Given vector of strings, return start and end coordinates"
   [strings]
   (map (fn [string] (as-> string in
-          (str/replace in #" -> " ",")
-          (str/split in #",")
-          (map (fn [s] (Integer/parseInt s)) in)
-          (partition 2 in)))
+                     (str/replace in #" -> " ",")
+                     (str/split in #",")
+                     (map (fn [s] (Integer/parseInt s)) in)
+                     (partition 2 in)))
        strings))
 
 (defn range-inclusive
   "Given two integers, return a vector including all numbers in between"
   [x y] (range x                            ; Start at the first number
-                 (if (< x y) (inc y) (dec y)) ; Modify the end to include second number
-                 (if (< x y) 1 -1)))          ; Determine if we're counting up or down
+               (if (< x y) (inc y) (dec y)) ; Modify the end to include second number
+               (if (< x y) 1 -1)))          ; Determine if we're counting up or down
 
 (defn compose-coords
   "Given start and end coordinates, compose all the coordinates within
@@ -43,7 +43,7 @@
     (for [y (range-inclusive y1 y2)] [x1 y])   ; Horizantal line, find all y values
     (for [x (range-inclusive x1 x2)] [x y1]))) ; Vertical line, find all x values
 
-;; (compose-coords [[0 0] [5 0]])
+#_(compose-coords [[0 0] [5 0]])
 
 (defn fill-board
   "Given a list of lines, a vector of start and end coordinates,
@@ -61,4 +61,4 @@
   (let [lines (filter #(apply is-ortho? %) (create-lines in))]
     (count (find-dup-coords (fill-board compose-coords lines)))))
 
-;; (println "Day 05 - Part 1: " (run input))
+#_(println "Day 05 - Part 1: " (run input))

@@ -10,15 +10,17 @@
   "Given a vector of integers, update each timer by decrementing or reseting it"
   [timers] (mapv (fn [t] (if (= 0 t) 6 (dec t))) timers))
 
-;; (update-timers [3 4 3 1 2])
+#_(update-timers [3 4 3 1 2])
 
 (defn get-new-fish
   "Given a vector of integers, return the appropriate amount of new timers"
   [timers] (repeat
-            (get (frequencies timers) 0 0) ; Build frequency map of timers and pull out count of 0s, defaulting to 0
-            8)) ; New fish start at 8
+            ;; Build frequency map of timers and pull out count of 0s, defaulting to 0
+            (get (frequencies timers) 0 0)
+            ;; New fish start at 8
+            8))
 
-;; (get-new-fish [2 3 4 2 0 3 0 4])
+#_(get-new-fish [2 3 4 2 0 3 0 4])
 
 (defn run [initial days]
   (def days-left (atom days))
@@ -26,7 +28,7 @@
   (def new-fish (atom '()))
 
   (while (pos? @days-left)
-    ;; (println @timers)
+    #_(println @timers)
     (reset! new-fish (get-new-fish @timers))
     (def updates (update-timers @timers))
     (reset! timers (concat updates @new-fish))
@@ -34,4 +36,4 @@
 
   (count @timers))
 
-;; (println "Day 06 - Part 1: " (run input 80))
+#_(println "Day 06 - Part 1: " (run input 80))
