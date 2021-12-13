@@ -55,10 +55,10 @@
                                     (.indexOf digits (str-sort current)))
                                   output)))))
 
-(defn run [in]
-  (->> in
+(defn run []
+  (->> input
      (map parse-line)
      (map solve-line)
      (reduce +)))
 
-#_(println "Day 08 - Part 2: " (run input))
+#_(println "Day 08 - Part 2: " (run))
