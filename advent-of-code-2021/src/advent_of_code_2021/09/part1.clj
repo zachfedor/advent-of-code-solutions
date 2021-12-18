@@ -3,7 +3,7 @@
             [clojure.string :as str]))
 
 (defn parse-input [lines]
-  (map (fn [line] (map #(Integer/parseInt %) (str/split line #""))) lines))
+  (mapv (fn [line] (mapv #(Integer/parseInt %) (str/split line #""))) lines))
 
 (def example (parse-input ["2199943210"
                            "3987894921"
@@ -13,52 +13,45 @@
 
 (def input (parse-input (read-lines "src/advent_of_code_2021/09/input.txt")))
 
+(defn get-neighbors [x y max-x max-y]
+  (->> [[0 -1] [-1 0] [1 0] [0 1]]          ; Up, left, right, and down
+       (map (fn [[i j]] [(+ x i) (+ y j)]))  ;   from the original coordinates
+       (filter (fn [[i j]] (and (>= i 0)     ;   if within the bounds of the matrix.
+                               (>= j 0)
+                               (<= i max-x)
+                               (<= j max-y))))))
+
+#_(get-neighbors 0 0 12 12)
+
 (defn lowest?
-  "Given a vector of numbers, return true if the first is less than the rest"
-  [{height :height neighbors :neighbors}] (every? #(> % height) (map :height neighbors)))
+  "Given a heightmap and a coordinate, return true if that point is lower than it's neighbors"
+  [hm x y]
+  (let [max-y (-> hm count dec)        ; Find index of last row
+        max-x (-> hm first count dec)  ; Find index of last column
+        height (get-in hm [y x])       ; Get height of current point
+        neighbors (->> (get-neighbors x y max-x max-y)  ; Get surrounding heights
+                       (map (fn [[i j]] (get-in hm [j i]))))]
+    (every? #(> % height) neighbors)))
 
-#_(lowest? {:height 1 :neighbors '({:height 2} {:height 3} {:height 4})})
-
-(defn get-point
-  "Given coordinates and a matrix, retrieve that point's height"
-  [x y matrix]
-  {:height (nth (nth matrix y) x) :x x :y y})
-
-(defn get-neighbors
-  [x y matrix]
-  (let [max-x (dec (count (first matrix)))
-        max-y (dec (count matrix))]
-    (filter some? ; Filter out nil neighbors
-            [(if (< 0 y) (get-point x (dec y) matrix))         ; Up
-             (if (< 0 x) (get-point (dec x) y matrix))         ; Left
-             (if (< x max-x) (get-point (inc x) y matrix))     ; Right
-             (if (< y max-y) (get-point x (inc y) matrix))]))) ; Down
-
-#_(get-neighbors 9 4 example)
+#_(lowest? example 1 0)
 
 (defn find-low-points
-  "Given a matrix of heights, find all points that are lower than their adjacent neighbors"
-  [heightmap]
-  (->> heightmap
-       (map-indexed
-        (fn [y row]         ; For each row at index y
-          (map-indexed
-           (fn [x element]  ; For each element at index x
-             {:height element
-              :x x  :y y
-              :neighbors (get-neighbors x y heightmap)})
-           row)))
-       (apply concat)
-       (filter lowest?)))
+  "Given a heightmap, find all points that are lower than their adjacent neighbors"
+  [hm]
+  (let [rows (count hm)
+        cols (count (first hm))]
+    ;; Compose list of coordinates in matrix
+    (for [y (range rows)
+          x (range cols)
+          ;; But filter out the lowest points
+          :when (lowest? hm x y)] [x y])))
 
 #_(find-low-points example)
 
 (defn find-risk-level
-  [coll]
-  (+ (count coll)
-     (reduce + (map :height coll))))
+  [in]
+  (->> (find-low-points in)
+       (map (fn [[x y]] (get-in in [y x])))
+       (reduce #(+ %1 1 %2) 0)))
 
-(defn run []
-  (find-risk-level (find-low-points input)))
-
-#_(println "Day 09 - Part 1: " (run))
+#_(println "Day 09 - Part 1: " (find-risk-level input))
