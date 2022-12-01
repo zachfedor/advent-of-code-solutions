@@ -15,4 +15,4 @@
           (synced-flashes? current) step
           :else (recur (inc step) (part1/step-thru current)))))
 
-(println "\nSteps:" (find-synced-flashes input))
+#_(println "\nSteps:" (find-synced-flashes input))
