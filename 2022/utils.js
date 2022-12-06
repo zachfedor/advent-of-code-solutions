@@ -7,7 +7,7 @@ const readInput = () => {
 
 const readInputLines = () => {
   const str = fs.readFileSync('./input.txt', 'utf-8');
-  return str.split("\n");
+  return str.trim().split("\n");
 }
 
 module.exports = {
