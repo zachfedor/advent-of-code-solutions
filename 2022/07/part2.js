@@ -47,7 +47,7 @@ const buildFilesystem = (cmds) => {
     } else if (cmd === "$ ls") {
       // find index of next command starting with $
       const nextCommand = cmds.findIndex((l) => l.startsWith("$"));
-      // splice from 0 to index to get contents
+      // splice from 0 to index (or end) to get contents
       const contents = nextCommand > 0 ? cmds.splice(0, nextCommand) : cmds.splice(0);
       // add each to fs at current pwd
       for (let c of contents) {
